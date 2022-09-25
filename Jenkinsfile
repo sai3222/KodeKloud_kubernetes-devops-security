@@ -17,5 +17,13 @@ pipeline {
             }
           }  
       } 
-    }
+    stage('kubernetes Deployment -Dev') {
+      steps {
+         withKubeconfig([credentialsId: 'kubeconfig']) {
+           sh "sed -i 's#replace#saikrishna310/numeric-app:${GIT_COMMIT}#g' k8s_service.yaml"
+           sh "kubectl apply -f k8s_deployment_service.yaml"
+         }
+      }
+    }  
+   }
 }
