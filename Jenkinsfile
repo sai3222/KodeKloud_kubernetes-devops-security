@@ -10,9 +10,10 @@ pipeline {
         }   
       stage ('Docker build and push') {
           steps {
-              sh 'printenv'
-              sh 'docker build -t saikrishna310/numeric-app:""$GIT_COMMIT"" .'
-              sh 'docker push saikrishna310/numeric-app:""$GIT_COMMIT""'
+            withDockerRegistry([credentialsId: "docker-hub", url: ""]) {
+                sh 'printenv'
+                sh 'docker build -t saikrishna310/numeric-app:""$GIT_COMMIT"" .'
+                sh 'docker push saikrishna310/numeric-app:""$GIT_COMMIT""'
           }  
       } 
     }
